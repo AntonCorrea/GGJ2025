@@ -24,10 +24,11 @@ public class DoorController : MonoBehaviour
 
         // Toggle rooms
         if (currentRoom != null)
-            //currentRoom.gameObject.SetActive(false);
-            currentRoom.FadeRoom();
+            currentRoom.gameObject.SetActive(false);
+        //currentRoom.FadeRoom();
 
         if (nextRoom != null)
+            GameManager.Instance.currentRoom = nextRoom;
             nextRoom.gameObject.SetActive(true);
 
         isTransitioning = false;

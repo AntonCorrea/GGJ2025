@@ -1,0 +1,100 @@
+using System.Collections;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    Camera mainCamera;
+
+    [Header("Movement Settings")]
+    public float moveSpeed = 5f; // Forward/backward movement speed
+    //public float rotationSpeed = 100f; // Rotation speed
+    Ray ray;
+    RaycastHit raycastHit;
+    public LayerMask groundLayer;
+
+    [Header("Lives")]
+    public int lives = 3;
+
+    [Header("Knockback Settings")]
+    public float knockbackForce = 5f; // Force of the knockback
+    public float knockbackDuration = 0.5f; // Duration of the knockback
+    public float knockbackRecoverTime = 1f;
+    float currentKnockbackRecoverTime = 0f;
+    private bool isKnockedBack = false; // Flag to prevent movement during knockback
+    public ParticleSystem hitVFX;
+
+    private void Start()
+    {
+        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+    }
+    void Update()
+    {
+
+
+        if (Input.GetMouseButton(0))
+        {
+            ///navMeshAgent.isStopped = false;
+            ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out raycastHit,100f,groundLayer))
+            {
+                if (isKnockedBack == false)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, raycastHit.point, moveSpeed * Time.deltaTime);
+                    transform.LookAt(raycastHit.point);
+                }
+            }
+        }
+
+        currentKnockbackRecoverTime += Time.deltaTime;
+    }
+
+    public void GetHit(int dmg)
+    {
+        if(currentKnockbackRecoverTime > knockbackRecoverTime)
+        {
+            if (isKnockedBack == false)
+            {
+                lives -= dmg;
+                StartCoroutine(KnockBack());
+                currentKnockbackRecoverTime = 0f;
+
+                GameManager.Instance.ui.PlayerHit(dmg);
+            }
+        }     
+    }
+
+    IEnumerator KnockBack()
+    {
+        isKnockedBack = true;
+
+        //hitVFX.Play();
+        ParticleSystem copyhitVFX = GameObject.Instantiate(hitVFX,this.transform);
+        copyhitVFX.transform.parent = null;
+        copyhitVFX.Play();
+        GameObject.Destroy(copyhitVFX.gameObject, 3f);
+
+        // Calculate the knockback direction (opposite to the forward direction of the player)
+        Vector3 knockbackDirection = -transform.forward;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < knockbackDuration)
+        {
+            // Move the player in the knockback direction
+            transform.Translate(knockbackDirection * knockbackForce * Time.deltaTime, Space.World);
+
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait for the next frame
+        }
+
+        isKnockedBack = false;
+    }
+
+    public void ResetPlayer()
+    {
+        lives = 3;
+        isKnockedBack = false;
+    }
+}
+
