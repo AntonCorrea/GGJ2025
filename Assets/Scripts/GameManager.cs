@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     public RoomController[] rooms;
     public RoomController currentRoom;
 
+    public List<NpcController> NPCList;
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -28,6 +30,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         currentRoom = rooms[0];
+
+
     }
 
     // Update is called once per frame
@@ -62,6 +66,11 @@ public class GameManager : MonoBehaviour
         foreach(RoomController room in rooms)
         {
             room.ResetRoom();
+        }
+
+        foreach(NpcController npc in NPCList)
+        {
+            npc.ResetNPC();
         }
 
         player.transform.position = currentRoom.playerSpawn.position;

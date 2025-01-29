@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class NpcController : MonoBehaviour
 {
+    [Header("Settings")]
+    Vector3 spawnPosition;
+    Quaternion spawnRotation;
     [Header("Movement Settings")]
     public float moveSpeed = 5f; // Forward/backward movement speed
     public float rotationSpeed = 100f; // Rotation speed
-    //public bool followAttackTarget = false;
-
 
     [Header("Lives")]
     public int lives = 1;
@@ -18,10 +19,10 @@ public class NpcController : MonoBehaviour
     public ParticleSystem hitVFX;
 
     [Header("Targets")]
-    public Transform objectTarget;
+    public Transform followTarget;
     public Transform waypointTarget;
-    public Transform target;
-    public bool followTarget = true;
+    public Transform currentTarget;
+    public bool moveToTarget = true;
     public bool turnToTarget = true;
 
     [Header("Navigation")]
@@ -44,55 +45,51 @@ public class NpcController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        spawnPosition = transform.position;
+        spawnRotation = transform.rotation;
 
         player = GameManager.Instance.player;
+
         waypointTarget = waypoints.waypointList[0];
-
-            objectTarget = player.transform;
+        followTarget = player.transform;
         
-
-        target = waypointTarget;
+        currentTarget = waypointTarget;
 
         weapon = GetComponentInChildren<WeaponBase>();
 
+        GameManager.Instance.NPCList.Add(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (followTarget)
+        if (moveToTarget)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, moveSpeed * Time.deltaTime);
             
         }
         if(turnToTarget)
         {
-            transform.LookAt(target.position);
+            transform.LookAt(currentTarget.position);
         }
 
-
-        if (objectTarget)
+        if (followTarget)
         {
-            if (Vector3.Distance(searchAreaOrigin.position, objectTarget.transform.position) < searchAreaSize)
+            if (Vector3.Distance(searchAreaOrigin.position, followTarget.transform.position) < searchAreaSize)
             {
-                target = objectTarget;
+                currentTarget = followTarget;
                 currentSearchTime = 0f;
-                followTarget = true;
-                if (Vector3.Distance(transform.position, objectTarget.transform.position) < attackAreaSize)
+                moveToTarget = true;
+                if (Vector3.Distance(transform.position, followTarget.transform.position) < attackAreaSize)
                 {
+                    moveToTarget = false;
                     if (weapon)
                     {
                         if (hostile == true)
                         {
                             weapon.Attack();
                         }
-                    }
-
-                    //if (followAttackTarget == false)
-                    {
-                        followTarget = false;
-                    }
-
+                    }                    
                 }
 
             }
@@ -101,14 +98,14 @@ public class NpcController : MonoBehaviour
                 currentSearchTime += Time.deltaTime;
                 if (currentSearchTime > searchTime)
                 {
-                    target = waypointTarget;
-                    followTarget = true;
+                    currentTarget = waypointTarget;
+                    moveToTarget = true;
                 }
             }
         }
         else
         {
-            target = waypointTarget;
+            currentTarget = waypointTarget;
         }
 
         
@@ -141,5 +138,11 @@ public class NpcController : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackAreaSize);
+    }
+
+    public void ResetNPC()
+    {
+        transform.position = spawnPosition;
+        transform.rotation = spawnRotation;
     }
 }
