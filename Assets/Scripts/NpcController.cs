@@ -49,8 +49,11 @@ public class NpcController : MonoBehaviour
         spawnRotation = transform.rotation;
 
         player = GameManager.Instance.player;
-
-        waypointTarget = waypoints.waypointList[0];
+        if (waypoints)
+        {
+            waypointTarget = waypoints.waypointList[0];
+        }
+        
         followTarget = player.transform;
         
         currentTarget = waypointTarget;
@@ -63,58 +66,59 @@ public class NpcController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (moveToTarget)
+        if (currentTarget)
         {
-            transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, moveSpeed * Time.deltaTime);
-            
-        }
-        if(turnToTarget)
-        {
-            transform.LookAt(currentTarget.position);
-        }
-
-        if (followTarget)
-        {
-            if (Vector3.Distance(searchAreaOrigin.position, followTarget.transform.position) < searchAreaSize)
+            if (moveToTarget)
             {
-                currentTarget = followTarget;
-                currentSearchTime = 0f;
-                moveToTarget = true;
-                if (Vector3.Distance(transform.position, followTarget.transform.position) < attackAreaSize)
-                {
-                    moveToTarget = false;
-                    if (weapon)
-                    {
-                        if (hostile == true)
-                        {
-                            weapon.Attack();
-                        }
-                    }                    
-                }
+                transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, moveSpeed * Time.deltaTime);
 
+            }
+            if (turnToTarget)
+            {
+                transform.LookAt(currentTarget.position);
+            }
+
+            if (followTarget)
+            {
+                if (Vector3.Distance(searchAreaOrigin.position, followTarget.transform.position) < searchAreaSize)
+                {
+                    currentTarget = followTarget;
+                    currentSearchTime = 0f;
+                    moveToTarget = true;
+                    if (Vector3.Distance(transform.position, followTarget.transform.position) < attackAreaSize)
+                    {
+                        moveToTarget = false;
+                        if (weapon)
+                        {
+                            if (hostile == true)
+                            {
+                                weapon.Attack();
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    currentSearchTime += Time.deltaTime;
+                    if (currentSearchTime > searchTime)
+                    {
+                        currentTarget = waypointTarget;
+                        moveToTarget = true;
+                    }
+                }
             }
             else
             {
-                currentSearchTime += Time.deltaTime;
-                if (currentSearchTime > searchTime)
-                {
-                    currentTarget = waypointTarget;
-                    moveToTarget = true;
-                }
+                currentTarget = waypointTarget;
             }
-        }
-        else
-        {
-            currentTarget = waypointTarget;
-        }
 
-        
-        if(Vector3.Distance(this.transform.position,waypointTarget.position) < distanceToWaypoint)
-        {
-            UpdateWaypoint();
-        }
 
-       
+            if (Vector3.Distance(this.transform.position, waypointTarget.position) < distanceToWaypoint)
+            {
+                UpdateWaypoint();
+            }
+        }     
     }
 
     void UpdateWaypoint()

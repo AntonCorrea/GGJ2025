@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     private bool isKnockedBack = false; // Flag to prevent movement during knockback
     public ParticleSystem hitVFX;
 
+    [Header("Power")]
+    public PowerController power;
+
     private void Start()
     {
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -44,6 +47,15 @@ public class PlayerController : MonoBehaviour
                     transform.LookAt(raycastHit.point);
                 }
             }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            power.UsePower(true);
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            power.UsePower(false);
         }
 
         currentKnockbackRecoverTime += Time.deltaTime;
