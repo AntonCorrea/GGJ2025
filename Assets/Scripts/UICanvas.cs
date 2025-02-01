@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class UICanvas : MonoBehaviour
 {
+    public Canvas canvas;
+    public RectTransform bubbleOrigin;
+    public RectTransform bubbleCenter;
+
     public GameObject heartOriginal;
     public List<GameObject> lives = new List<GameObject>();
 
@@ -16,6 +20,7 @@ public class UICanvas : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        canvas = GetComponent<Canvas>();
         ResetUI();
     }
 

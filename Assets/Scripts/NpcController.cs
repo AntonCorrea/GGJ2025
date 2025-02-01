@@ -135,6 +135,16 @@ public class NpcController : MonoBehaviour
         waypointTarget = waypoints.waypointList[waypointIndex];
     }
 
+    public void ResetNPC()
+    {
+        transform.position = spawnPosition;
+        transform.rotation = spawnRotation;
+    }
+
+    public void OpenBubble()
+    {
+        GameManager.Instance.WorldToScreen(this);
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -144,9 +154,5 @@ public class NpcController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackAreaSize);
     }
 
-    public void ResetNPC()
-    {
-        transform.position = spawnPosition;
-        transform.rotation = spawnRotation;
-    }
+
 }

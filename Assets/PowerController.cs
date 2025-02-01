@@ -42,6 +42,7 @@ public class PowerController : MonoBehaviour
                 .OrderBy(c => Vector3.Distance(transform.position, c.transform.position)) // Sort by distance
                 .ToList();
 
+            filteredObjects[0].OpenBubble();
         }
         else
         {
