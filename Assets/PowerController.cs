@@ -41,8 +41,11 @@ public class PowerController : MonoBehaviour
                 .Where(c => c != null) // Remove null entries (objects that don't have MyClass)
                 .OrderBy(c => Vector3.Distance(transform.position, c.transform.position)) // Sort by distance
                 .ToList();
-
-            filteredObjects[0].OpenBubble();
+            if (filteredObjects.Count>0 && filteredObjects[0])
+            {
+                GameManager.Instance.OpenPowerBubble(filteredObjects[0]);
+            }
+            particle.Stop();
         }
         else
         {

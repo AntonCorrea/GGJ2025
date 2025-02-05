@@ -1,19 +1,21 @@
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public PlayerController player;
-    public UICanvas ui;
-    public Transform bubbleCameraPoint;
 
-    public RoomController[] rooms;
+    public UICanvas uiCanvas;
+    public UIWorldSpaceCanvas uiWorldSpaceCanvas;
+
+    public RoomController[] roomArray;
     public RoomController currentRoom;
 
-    public List<NpcController> NPCList;
     public static GameManager Instance { get; private set; }
 
     public Camera mainCamera; // Assign your main camera
+    public CinemachineCamera cinemachineBrain;
 
     private void Awake()
     {
@@ -34,7 +36,7 @@ public class GameManager : MonoBehaviour
     {
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
-        currentRoom = rooms[0];
+        currentRoom = roomArray[0];
 
 
     }
@@ -55,45 +57,38 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void WorldToScreen(NpcController npc)
+    public void OpenPowerBubble(NpcController npc)
     {
-        //if (worldObject == null || uiElement == null || mainCamera == null) return;
+        player.canMove = false;
 
-        // Step 1: Convert world position to screen position
-        Vector3 screenPoint = mainCamera.WorldToScreenPoint(npc.transform.position);
+        uiCanvas.canvasGroup.blocksRaycasts = false;
+        uiCanvas.gameObject.SetActive(false);       
 
-        // Step 2: Convert screen position to UI local position
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            ui.canvas.GetComponent<RectTransform>(), // The parent UI element (Canvas)
-            screenPoint,
-            ui.canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera, // Camera (if needed)
-            out Vector2 uiPosition
-        );
+        uiWorldSpaceCanvas.OpenBubble(npc);
 
-        // Step 3: Apply the position to the UI element
-        ui.bubbleOrigin.anchoredPosition = uiPosition;
+        cinemachineBrain.Follow = uiWorldSpaceCanvas.bubbleCenter;
 
-        Vector3 worldPoint = ConvertUIToWorld(ui.bubbleCenter);
-        bubbleCameraPoint.position = worldPoint;
+
     }
 
-    Vector3 ConvertUIToWorld(RectTransform uiElement)
+    public void ClosePowerBubble()
     {
-        // Get the UI element’s screen position
-        Vector3 screenPos = uiElement.position;
+        player.canMove = true;
 
-        // Set a custom depth since Screen Space - Overlay doesn’t have a real depth
-        screenPos.z = 30f;
+        uiCanvas.canvasGroup.blocksRaycasts = true;
+        uiCanvas.gameObject.SetActive(true);
 
-        // Convert to world position
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPos);
-        return worldPosition;
+        uiWorldSpaceCanvas.CloseBubble();
+
+        cinemachineBrain.Follow = player.transform;
     }
+
+
 
     void GameOver()
     {
         player.gameObject.SetActive(false);
-        ui.FadeToBlack();
+        uiCanvas.FadeToBlack();
     }
 
     public void ResetButton()
@@ -103,12 +98,13 @@ public class GameManager : MonoBehaviour
 
     private void ResetGame()
     {
-        foreach(RoomController room in rooms)
-        {
-            room.ResetRoom();
-        }
+        //foreach(RoomController room in roomArray)
+        //{
+        //    room.ResetRoom();
+        //}
+        currentRoom.ResetRoom();
 
-        foreach(NpcController npc in NPCList)
+        foreach(NpcController npc in currentRoom.npcsList)
         {
             npc.ResetNPC();
         }
@@ -118,6 +114,6 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
         player.ResetPlayer();
 
-        ui.ResetUI();
+        uiCanvas.ResetUI();
     }
 }

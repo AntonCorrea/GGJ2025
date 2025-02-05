@@ -1,10 +1,12 @@
 using UnityEngine;
 
-public class NpcController : MonoBehaviour
+public class NpcController : ActionTarget
 {
     [Header("Settings")]
     Vector3 spawnPosition;
     Quaternion spawnRotation;
+    public enum Status { Idle,Following,Attack,Work} 
+    public Status status;
     [Header("Movement Settings")]
     public float moveSpeed = 5f; // Forward/backward movement speed
     public float rotationSpeed = 100f; // Rotation speed
@@ -19,14 +21,14 @@ public class NpcController : MonoBehaviour
     public ParticleSystem hitVFX;
 
     [Header("Targets")]
-    public Transform followTarget;
-    public Transform waypointTarget;
+    public Transform alertTarget;//Target to be on the lookout, will gain currentTarget when in search area
+    public Transform waypointTarget;//patrol route
     public Transform currentTarget;
     public bool moveToTarget = true;
     public bool turnToTarget = true;
 
     [Header("Navigation")]
-    public WaypointsController waypoints;
+    //public WaypointsController waypoints;
     int waypointIndex = 0;
     public int distanceToWaypoint = 1;
 
@@ -53,14 +55,16 @@ public class NpcController : MonoBehaviour
         {
             waypointTarget = waypoints.waypointList[0];
         }
-        
-        followTarget = player.transform;
+        if (alertTarget)
+        {
+            alertTarget = player.transform;
+        }
+
+        status = Status.Idle;
         
         currentTarget = waypointTarget;
 
         weapon = GetComponentInChildren<WeaponBase>();
-
-        GameManager.Instance.NPCList.Add(this);
     }
 
     // Update is called once per frame
@@ -78,61 +82,74 @@ public class NpcController : MonoBehaviour
                 transform.LookAt(currentTarget.position);
             }
 
-            if (followTarget)
+            if (alertTarget)
             {
-                if (Vector3.Distance(searchAreaOrigin.position, followTarget.transform.position) < searchAreaSize)
-                {
-                    currentTarget = followTarget;
-                    currentSearchTime = 0f;
-                    moveToTarget = true;
-                    if (Vector3.Distance(transform.position, followTarget.transform.position) < attackAreaSize)
-                    {
-                        moveToTarget = false;
-                        if (weapon)
-                        {
-                            if (hostile == true)
-                            {
-                                weapon.Attack();
-                            }
-                        }
-                    }
+                LookForAlertTarget();
+            }
+            //else
+            //{
+            //    currentTarget = waypointTarget;
+            //}
 
-                }
-                else
+
+            
+        }
+
+        
+        UpdateWaypoint();
+
+    }
+
+    void LookForAlertTarget()
+    {
+        if (Vector3.Distance(searchAreaOrigin.position, alertTarget.transform.position) < searchAreaSize)
+        {
+            currentTarget = alertTarget;
+            currentSearchTime = 0f;
+            moveToTarget = true;
+            if (Vector3.Distance(transform.position, alertTarget.transform.position) < attackAreaSize)
+            {
+                moveToTarget = false;
+                if (weapon)
                 {
-                    currentSearchTime += Time.deltaTime;
-                    if (currentSearchTime > searchTime)
+                    if (hostile == true)
                     {
-                        currentTarget = waypointTarget;
-                        moveToTarget = true;
+                        weapon.Attack();
                     }
                 }
             }
-            else
+
+        }
+        else
+        {
+            currentSearchTime += Time.deltaTime;
+            if (currentSearchTime > searchTime)
             {
                 currentTarget = waypointTarget;
+                moveToTarget = true;
             }
-
-
-            if (Vector3.Distance(this.transform.position, waypointTarget.position) < distanceToWaypoint)
-            {
-                UpdateWaypoint();
-            }
-        }     
+        }
     }
 
     void UpdateWaypoint()
     {
-        if (waypointIndex == waypoints.waypointList.Count - 1)
+        if (Vector3.Distance(this.transform.position, waypointTarget.position) < distanceToWaypoint)
         {
-            waypointIndex = 0;
-        }
-        else
-        {
-            waypointIndex++;
+            if (waypointIndex == waypoints.waypointList.Count - 1)
+            {
+                waypointIndex = 0;
+            }
+            else
+            {
+                waypointIndex++;
+            }
+
+            waypointTarget = waypoints.waypointList[waypointIndex];
+            currentTarget = waypointTarget;
         }
 
-        waypointTarget = waypoints.waypointList[waypointIndex];
+
+        
     }
 
     public void ResetNPC()
@@ -141,10 +158,7 @@ public class NpcController : MonoBehaviour
         transform.rotation = spawnRotation;
     }
 
-    public void OpenBubble()
-    {
-        GameManager.Instance.WorldToScreen(this);
-    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;

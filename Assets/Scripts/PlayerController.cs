@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    Camera mainCamera;
 
     [Header("Movement Settings")]
     public float moveSpeed = 5f; // Forward/backward movement speed
-    //public float rotationSpeed = 100f; // Rotation speed
+    public bool canMove = true; 
+
+    [Header("Raycast")]
     Ray ray;
     RaycastHit raycastHit;
     public LayerMask groundLayer;
@@ -28,37 +29,40 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+
     }
     void Update()
     {
 
-
-        if (Input.GetMouseButton(0))
+        if(canMove)
         {
-            ///navMeshAgent.isStopped = false;
-            ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out raycastHit,100f,groundLayer))
+            if (Input.GetMouseButton(0))
             {
-                if (isKnockedBack == false)
+                ///navMeshAgent.isStopped = false;
+                ray = GameManager.Instance.mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out raycastHit, 100f, groundLayer))
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, raycastHit.point, moveSpeed * Time.deltaTime);
-                    transform.LookAt(raycastHit.point);
+                    if (isKnockedBack == false)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, raycastHit.point, moveSpeed * Time.deltaTime);
+                        transform.LookAt(raycastHit.point);
+                    }
                 }
             }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                power.UsePower(true);
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                power.UsePower(false);
+            }
+
+            currentKnockbackRecoverTime += Time.deltaTime;
         }
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            power.UsePower(true);
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            power.UsePower(false);
-        }
-
-        currentKnockbackRecoverTime += Time.deltaTime;
     }
 
     public void GetHit(int dmg)
@@ -71,7 +75,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(KnockBack());
                 currentKnockbackRecoverTime = 0f;
 
-                GameManager.Instance.ui.PlayerHit(dmg);
+                GameManager.Instance.uiCanvas.PlayerHit(dmg);
             }
         }     
     }

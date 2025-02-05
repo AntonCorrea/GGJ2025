@@ -1,17 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomController : MonoBehaviour
 {
-    public FadeInVFX fadevfx;
-
     public Transform playerSpawn;
+    public List<NpcController> npcsList;
+    public List<WorkStationController> worksList;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public void FadeRoom()
+    public void Start()
     {
-        fadevfx.Fade();
-    }
+        foreach(NpcController npc in GetComponentsInChildren<NpcController>())
+        {
+            npcsList.Add(npc);
+        }
 
+        foreach(WorkStationController work in GetComponentsInChildren<WorkStationController>())
+        {
+            worksList.Add(work);
+        }
+    }
     public void ResetRoom()
     {
 
