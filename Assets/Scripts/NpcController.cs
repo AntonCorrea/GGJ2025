@@ -9,7 +9,7 @@ public class NpcController : ActionTarget
     public Status status;
     [Header("Movement Settings")]
     public float moveSpeed = 5f; // Forward/backward movement speed
-    public float rotationSpeed = 100f; // Rotation speed
+    public float rotationSpeed = 90f; // Rotation speed
 
     [Header("Lives")]
     public int lives = 1;
@@ -43,6 +43,7 @@ public class NpcController : ActionTarget
 
     WeaponBase weapon;
     PlayerController player;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -79,7 +80,9 @@ public class NpcController : ActionTarget
             }
             if (turnToTarget)
             {
-                transform.LookAt(currentTarget.position);
+                Vector3 direction = currentTarget.position - transform.position;
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
 
             if (alertTarget)
