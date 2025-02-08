@@ -5,8 +5,10 @@ public class NpcController : ActionTarget
     [Header("Settings")]
     Vector3 spawnPosition;
     Quaternion spawnRotation;
-    public enum Status { Idle,Following,Attack,Work} 
+    public enum Status { Idle,FollowingWaypoint, FollowingTarget, Attacking, Working, Patroling} 
     public Status status;
+    public enum Mode { FollowTarget, FollowWaypoint}
+    public Mode mode;
     [Header("Movement Settings")]
     public float moveSpeed = 5f; // Forward/backward movement speed
     public float rotationSpeed = 90f; // Rotation speed
@@ -14,18 +16,20 @@ public class NpcController : ActionTarget
     [Header("Lives")]
     public int lives = 1;
 
-    [Header("Knockback Settings")]
-    public float knockbackForce = 5f; // Force of the knockback
-    public float knockbackDuration = 0.5f; // Duration of the knockback
-    private bool isKnockedBack = false; // Flag to prevent movement during knockback
-    public ParticleSystem hitVFX;
+    //[Header("Knockback Settings")]
+    //public float knockbackForce = 5f; // Force of the knockback
+    //public float knockbackDuration = 0.5f; // Duration of the knockback
+    //private bool isKnockedBack = false; // Flag to prevent movement during knockback
+    //public ParticleSystem hitVFX;
 
     [Header("Targets")]
-    public Transform alertTarget;//Target to be on the lookout, will gain currentTarget when in search area
-    public Transform waypointTarget;//patrol route
-    public Transform currentTarget;
+    //public ActionTarget waypointsTarget;//patrol route
+    public ActionTarget target;
+    public Transform currentTargetTransform;
     public bool moveToTarget = true;
     public bool turnToTarget = true;
+    public bool hostile;
+    public ActionTarget hostileTarget;//Target to be on the lookout, will gain currentTarget when in search area
 
     [Header("Navigation")]
     //public WaypointsController waypoints;
@@ -33,7 +37,6 @@ public class NpcController : ActionTarget
     public int distanceToWaypoint = 1;
 
     [Header("Search & Attack Area")]
-    public bool hostile;
     public int searchAreaSize = 6;
     public Transform searchAreaOrigin;
     public float searchTime = 1f;
@@ -52,18 +55,23 @@ public class NpcController : ActionTarget
         spawnRotation = transform.rotation;
 
         player = GameManager.Instance.player;
+
         if (waypoints)
         {
-            waypointTarget = waypoints.waypointList[0];
+            currentTargetTransform = waypoints.waypointList[0];
         }
-        if (alertTarget)
+        if (target)
         {
-            alertTarget = player.transform;
+            currentTargetTransform = target.targetTransform;
+        }
+        if (hostileTarget)
+        {
+            hostile = true;           
         }
 
         status = Status.Idle;
         
-        currentTarget = waypointTarget;
+        //currentTarget = waypointTarget;
 
         weapon = GetComponentInChildren<WeaponBase>();
     }
@@ -71,46 +79,41 @@ public class NpcController : ActionTarget
     // Update is called once per frame
     void Update()
     {
-        if (currentTarget)
+
+        if (moveToTarget)
         {
-            if (moveToTarget)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, currentTargetTransform.position, moveSpeed * Time.deltaTime);
 
-            }
-            if (turnToTarget)
-            {
-                Vector3 direction = currentTarget.position - transform.position;
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            }
-
-            if (alertTarget)
-            {
-                LookForAlertTarget();
-            }
-            //else
-            //{
-            //    currentTarget = waypointTarget;
-            //}
-
-
-            
+        }
+        if (turnToTarget)
+        {
+            Vector3 direction = currentTargetTransform.position - transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
+        if (hostileTarget)
+        {
+            LookForAlertTarget();
+        }          
         
-        UpdateWaypoint();
+
+        if (waypoints)
+        {
+            UpdateWaypoint();
+        }
+        
 
     }
 
     void LookForAlertTarget()
     {
-        if (Vector3.Distance(searchAreaOrigin.position, alertTarget.transform.position) < searchAreaSize)
+        if (Vector3.Distance(searchAreaOrigin.position, hostileTarget.transform.position) < searchAreaSize)
         {
-            currentTarget = alertTarget;
+            target = hostileTarget;
             currentSearchTime = 0f;
             moveToTarget = true;
-            if (Vector3.Distance(transform.position, alertTarget.transform.position) < attackAreaSize)
+            if (Vector3.Distance(transform.position, hostileTarget.transform.position) < attackAreaSize)
             {
                 moveToTarget = false;
                 if (weapon)
@@ -128,7 +131,7 @@ public class NpcController : ActionTarget
             currentSearchTime += Time.deltaTime;
             if (currentSearchTime > searchTime)
             {
-                currentTarget = waypointTarget;
+                //target = waypointsTarget;
                 moveToTarget = true;
             }
         }
@@ -136,7 +139,7 @@ public class NpcController : ActionTarget
 
     void UpdateWaypoint()
     {
-        if (Vector3.Distance(this.transform.position, waypointTarget.position) < distanceToWaypoint)
+        if (Vector3.Distance(this.transform.position, currentTargetTransform.position) < distanceToWaypoint)
         {
             if (waypointIndex == waypoints.waypointList.Count - 1)
             {
@@ -147,12 +150,18 @@ public class NpcController : ActionTarget
                 waypointIndex++;
             }
 
-            waypointTarget = waypoints.waypointList[waypointIndex];
-            currentTarget = waypointTarget;
+            currentTargetTransform = waypoints.waypointList[waypointIndex];
+            //target = waypointsTarget;
         }
 
 
         
+    }
+
+    public void SetTarget(ActionTarget t)
+    {
+        target = t;
+        currentTargetTransform = t.targetTransform;
     }
 
     public void ResetNPC()

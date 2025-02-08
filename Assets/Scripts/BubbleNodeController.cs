@@ -4,21 +4,18 @@ using UnityEngine.UI;
 
 public class BubbleNodeController : MonoBehaviour
 {
-    public TextMeshProUGUI textMesh;
-    public Image image;
-    public Button button;
-
+    public ActionTarget actionTarget;
     public BubbleNodeController nodeConected;
     public bool mainNode = false;
 
+    public TextMeshProUGUI textMesh;
+    public Image image;
+    public Button button;
     public LineRenderer line;
 
-    public ActionTarget actionTarget;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-    public void Init(string name)
+    public void Init(ActionTarget actionTarget)
     {
-        textMesh.text = name;      
+        textMesh.text = actionTarget.gameObject.name;      
     }
 
     public void SetBubble(Color color)
@@ -28,9 +25,30 @@ public class BubbleNodeController : MonoBehaviour
 
     public void ConnectNode(BubbleNodeController b)
     {
-        this.nodeConected = b;
-        line.positionCount = 2;
-        line.SetPosition(0, this.transform.position); 
-        line.SetPosition(1, b.transform.position); 
+        if (b)
+        {
+            this.nodeConected = b;
+            //(actionTarget as NpcController).target = b.actionTarget;
+            (actionTarget as NpcController).SetTarget(b.actionTarget);
+
+            line.positionCount = 2;
+            line.SetPosition(0, this.transform.position);
+            line.SetPosition(1, this.nodeConected.transform.position);
+        }
+        else
+        {
+            this.nodeConected = null;
+            line.positionCount = 0;
+        }
+        
+    }
+
+    private void Update()
+    {
+        if(line.positionCount > 1)
+        {
+            line.SetPosition(0, this.transform.position);
+            line.SetPosition(1, this.nodeConected.transform.position);
+        }
     }
 }

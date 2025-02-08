@@ -33,4 +33,18 @@ public class WaypointsController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.GetChild(childs).position, 1f);
         Gizmos.DrawLine(transform.GetChild(childs).position, transform.GetChild(0).position);
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+
+        int childs = transform.childCount - 1;
+        for (int i = 0; i < childs; i++)
+        {
+            transform.GetChild(i).name = "Waypoint_" + i.ToString();
+            Gizmos.DrawWireSphere(transform.GetChild(i).position, 1f);
+            Gizmos.DrawLine(transform.GetChild(i).position, transform.GetChild(i + 1).position);
+        }
+
+    }
 }

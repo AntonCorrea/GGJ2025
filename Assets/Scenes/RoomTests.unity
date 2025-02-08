@@ -5542,8 +5542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawn: {fileID: 1175968523}
-  npcsList: []
-  worksList: []
+  actionTargetList: []
 --- !u!1 &51868007
 GameObject:
   m_ObjectHideFlags: 0
@@ -10975,52 +10974,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 608742484}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!1 &100965813
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 100965814}
-  - component: {fileID: 100965815}
-  m_Layer: 0
-  m_Name: Waypoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &100965814
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100965813}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.00000035762784, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -13}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2126239444}
-  m_Father: {fileID: 2126453806}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &100965815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100965813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f257a471ed21f4e408b49cdf6a88e466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypointList: []
 --- !u!1 &107401852
 GameObject:
   m_ObjectHideFlags: 0
@@ -11077,8 +11030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawn: {fileID: 660963340}
-  npcsList: []
-  worksList: []
+  actionTargetList: []
 --- !u!1 &111552030
 GameObject:
   m_ObjectHideFlags: 0
@@ -11772,16 +11724,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 1526813681}
   status: 0
   moveSpeed: 10
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -11956,6 +11907,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 580358985}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &159596236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 159596237}
+  m_Layer: 0
+  m_Name: Waypoint_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &159596237
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159596236}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.44, y: 0, z: 2.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1277633873}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &171795896
 GameObject:
   m_ObjectHideFlags: 0
@@ -12054,16 +12036,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 0}
   status: 0
   moveSpeed: 10
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -23762,16 +23743,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints: {fileID: 100965815}
+  targetPoint: {fileID: 0}
+  waypoints: {fileID: 1277633874}
   status: 0
   moveSpeed: 5
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -24058,16 +24038,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 2126840714}
   status: 0
   moveSpeed: 5
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -29379,16 +29358,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 41797783}
   status: 0
   moveSpeed: 5
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -30083,16 +30061,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 1767085000}
   status: 0
   moveSpeed: 5
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -30257,8 +30234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawn: {fileID: 620493586}
-  npcsList: []
-  worksList: []
+  actionTargetList: []
 --- !u!1 &421393120
 GameObject:
   m_ObjectHideFlags: 0
@@ -30466,16 +30442,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 1043993819}
   status: 0
   moveSpeed: 5
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -30616,16 +30591,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 614018452}
   status: 0
   moveSpeed: 10
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -31305,16 +31279,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 1572795528}
   status: 0
   moveSpeed: 5
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -31412,8 +31385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawn: {fileID: 1407479994}
-  npcsList: []
-  worksList: []
+  actionTargetList: []
 --- !u!1 &543850663
 GameObject:
   m_ObjectHideFlags: 0
@@ -32634,8 +32606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawn: {fileID: 98227884}
-  npcsList: []
-  worksList: []
+  actionTargetList: []
 --- !u!1 &610175265
 GameObject:
   m_ObjectHideFlags: 0
@@ -33516,16 +33487,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 143211072}
   status: 0
   moveSpeed: 10
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -33634,16 +33604,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 0}
   status: 0
   moveSpeed: 10
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -33800,16 +33769,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 1001741588}
   status: 0
   moveSpeed: 5
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -39361,8 +39329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawn: {fileID: 501982625}
-  npcsList: []
-  worksList: []
+  actionTargetList: []
 --- !u!1 &790755341
 GameObject:
   m_ObjectHideFlags: 0
@@ -39609,11 +39576,12 @@ Transform:
   m_GameObject: {fileID: 827076177}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.00000035762784, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -15}
+  m_LocalPosition: {x: 0, y: 0, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1479404035}
+  - {fileID: 1571126862}
   m_Father: {fileID: 2126453806}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &827076179
@@ -39628,7 +39596,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3678f7a674559d145ab9dd3ee4564fc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints: {fileID: 100965815}
+  targetPoint: {fileID: 1571126862}
+  waypoints: {fileID: 0}
 --- !u!1 &837144234
 GameObject:
   m_ObjectHideFlags: 0
@@ -45548,16 +45517,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 568131896}
   status: 0
   moveSpeed: 10
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -57019,6 +56987,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1056480806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1056480807}
+  m_Layer: 0
+  m_Name: Waypoint_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1056480807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056480806}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.15, y: 0, z: 10.78}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1277633873}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1063432256
 GameObject:
   m_ObjectHideFlags: 0
@@ -57974,16 +57973,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 1265167633}
   status: 0
   moveSpeed: 5
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -59541,6 +59539,8 @@ Transform:
   m_Children:
   - {fileID: 2070785478}
   - {fileID: 814664260}
+  - {fileID: 159596237}
+  - {fileID: 1056480807}
   m_Father: {fileID: 2126453806}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1277633874
@@ -66709,7 +66709,7 @@ Transform:
   m_GameObject: {fileID: 1479404034}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -81584,8 +81584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawn: {fileID: 1787965746}
-  npcsList: []
-  worksList: []
+  actionTargetList: []
 --- !u!1 &1523278090
 GameObject:
   m_ObjectHideFlags: 0
@@ -87100,6 +87099,37 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &1571126861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1571126862}
+  m_Layer: 0
+  m_Name: TargetPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1571126862
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571126861}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 827076178}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1572795526
 GameObject:
   m_ObjectHideFlags: 0
@@ -99071,16 +99101,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 0}
   status: 0
   moveSpeed: 10
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -106521,8 +106550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawn: {fileID: 1939058124}
-  npcsList: []
-  worksList: []
+  actionTargetList: []
 --- !u!1 &1909906305
 GameObject:
   m_ObjectHideFlags: 0
@@ -108531,16 +108559,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 709455036}
   status: 0
   moveSpeed: 5
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -113649,16 +113676,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 1772456048}
   status: 0
   moveSpeed: 5
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1
@@ -119078,37 +119104,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1 &2126239443
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2126239444}
-  m_Layer: 0
-  m_Name: Waypoint_0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2126239444
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2126239443}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 100965814}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2126453805
 GameObject:
   m_ObjectHideFlags: 0
@@ -119146,7 +119141,6 @@ Transform:
   - {fileID: 315542904}
   - {fileID: 1277633873}
   - {fileID: 827076178}
-  - {fileID: 100965814}
   m_Father: {fileID: 1379618999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2126453807
@@ -119162,8 +119156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawn: {fileID: 1632349037}
-  npcsList: []
-  worksList: []
+  actionTargetList: []
 --- !u!1 &2126840712
 GameObject:
   m_ObjectHideFlags: 0
@@ -124966,7 +124959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &4451165272748331386
 GameObject:
   m_ObjectHideFlags: 0
@@ -125175,8 +125168,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4351539163096284014}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.199963, y: 0, z: -8.999954}
+  m_LocalRotation: {x: -0, y: 0.003974625, z: -0, w: 0.99999213}
+  m_LocalPosition: {x: 13.199963, y: 0, z: 6.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -125186,7 +125179,7 @@ Transform:
   - {fileID: 1885349988}
   - {fileID: 5109683898773941133}
   m_Father: {fileID: 2126453806}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0.455, z: 0}
 --- !u!23 &5624170041024283645
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -125582,16 +125575,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daa31d40761ad54fa63a2ec113f3a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
   waypoints: {fileID: 18054768}
   status: 0
   moveSpeed: 5
   rotationSpeed: 100
   lives: 1
-  knockbackForce: 5
-  knockbackDuration: 0.5
-  hitVFX: {fileID: 0}
   alertTarget: {fileID: 0}
-  waypointTarget: {fileID: 0}
+  waypointsTarget: {fileID: 0}
+  target: {fileID: 0}
   currentTarget: {fileID: 0}
   moveToTarget: 1
   turnToTarget: 1

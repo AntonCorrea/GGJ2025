@@ -104,9 +104,12 @@ public class GameManager : MonoBehaviour
         //}
         currentRoom.ResetRoom();
 
-        foreach(NpcController npc in currentRoom.npcsList)
+        foreach(var a in currentRoom.actionTargetList)
         {
-            npc.ResetNPC();
+            if(a is NpcController npc)
+            {
+                npc.ResetNPC();
+            }
         }
 
         player.transform.position = currentRoom.playerSpawn.position;

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BubbleController : MonoBehaviour
 {
     public NpcController currentNPC;
+    public BubbleNodeController currentNPCBubbleNode;
     [Header("Nodes")]
     public BubbleNodeController bubbleNodePrefab;
     public BubbleNodeController selectedNode;
@@ -42,33 +43,29 @@ public class BubbleController : MonoBehaviour
 
         center = bubble.transform.position;
 
-        foreach (NpcController n in GameManager.Instance.currentRoom.npcsList)
+        foreach(ActionTarget a in GameManager.Instance.currentRoom.actionTargetList)
         {
             BubbleNodeController b = GameObject.Instantiate(bubbleNodePrefab, bubble.transform);
-            b.Init(n.gameObject.name);
+            b.Init(a);
             b.button.onClick.AddListener(() => OnClickNode(b));
-            b.actionTarget = n;
+            b.actionTarget = a;
             bubbleList.Add(b);
-
-            if(n == currentNPC)
+           
+            if(a == currentNPC)
             {
+                currentNPCBubbleNode = b;
                 b.SetBubble(new Color(.75f, 0f, 0f));
                 b.mainNode = true;
             }
+
+            UpdateBubbleNodes(b);
         }
 
-        foreach(WorkStationController w in GameManager.Instance.currentRoom.worksList)
-        {
-            BubbleNodeController b = GameObject.Instantiate(bubbleNodePrefab, bubble.transform);
-            b.Init(w.gameObject.name);
-            b.button.onClick.AddListener(() => OnClickNode(b));
-            b.actionTarget = w;
-            bubbleList.Add(b);
-        }
-
-        //BubbleNodeController bubbleAux = GameObject.Instantiate(bubbleNodePrefab, bubble.transform);
-        //bubbleAux.Init("Interactuar");
-        //bubbleList.Add(bubbleAux);
+        BubbleNodeController bubbleAux = GameObject.Instantiate(bubbleNodePrefab, bubble.transform);
+        bubbleAux.Init(GameManager.Instance.player);
+        bubbleAux.button.onClick.AddListener(() => OnClickNode(bubbleAux));
+        bubbleAux.actionTarget = GameManager.Instance.player;
+        bubbleList.Add(bubbleAux);
 
 
         int count = bubbleList.Count;
@@ -110,8 +107,15 @@ public class BubbleController : MonoBehaviour
         GameManager.Instance.ClosePowerBubble();
     }
 
-    public void OnClickNode(BubbleNodeController b)
-    {
+    public void OnClickNode(BubbleNodeController b) // b is the node clicked
+    {       
+        if (selectedNode == b)
+        {
+            b.ConnectNode(null);
+            selectedNode = null;
+            return;
+        }
+
         if (selectedNode && selectedNode.mainNode)
         {
             selectedNode.ConnectNode(b);
@@ -123,8 +127,11 @@ public class BubbleController : MonoBehaviour
         }      
     }
 
-    public void UpdateBubbleNodes()
+    public void UpdateBubbleNodes(BubbleNodeController b)
     {
-
+        if(b.actionTarget == currentNPC.target)
+        {
+            currentNPCBubbleNode.ConnectNode(b);
+        }
     }
 }
